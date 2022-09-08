@@ -31,16 +31,15 @@ export default async function addTest(req, res) {
       const quiz = await Quiz.findById(req?.query?.quizId);
 
       if (quiz.published) {
-        return res
-          .status(400)
-          .json({
-            error: { message: "Quiz has already been published. Can't edit" },
-          });
+        return res.status(400).json({
+          error: { message: "Quiz has already been published. Can't edit" },
+        });
       }
 
       quiz.title = req?.body?.title || quiz.title;
       quiz.quiz = req?.body?.quiz || quiz.quiz;
       quiz.published = req?.body?.published || quiz.published;
+      quiz.permalink = req?.body?.permalink || quiz.permalink;
 
       await quiz.save();
 

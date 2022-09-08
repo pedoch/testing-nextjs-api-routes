@@ -28,7 +28,7 @@ const Login = () => {
         setLoading(false);
       }
     }
-  }, [user]);
+  }, [isLoading]);
 
   // useEffect(() => {
   //   fetchProviders();
@@ -67,7 +67,7 @@ const Login = () => {
                 // disabled={loadingProviders}
                 onClick={() => router.push("/api/auth/login")}
               >
-                Login in
+                Login
               </Button>
               {/* </ClientLink> */}
               {/* <Button

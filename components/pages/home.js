@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 // import { useSession, signOut } from "next-auth/react";
-import { Button } from "../common";
+import { Button, Navbar } from "../common";
 // import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -11,17 +11,20 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 export default function Home() {
   // const { data: session, status } = useSession();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
 
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
-    if (!user && !isLoading) {
-      window.location.href = "/login";
-    } else {
-      setLoading(false);
+    if (!isLoading) {
+      if (!user) {
+        window.location.href = "/login";
+      } else {
+        setLoading(false);
+      }
     }
-  }, [user]);
+  }, [isLoading]);
 
   return (
     <div className="h-screen w-full flex justify-center p-5">
@@ -36,27 +39,14 @@ export default function Home() {
         <p>{error.message}</p>
       ) : (
         <div className="w-full max-w-6xl">
-          <div className="w-full flex justify-between">
-            <p className="text-2xl font-semibold">Welcome {user?.nickname}!</p>
-            <div className="flex space-x-2">
-              <ClientLink to="/quiz/new">
-                <Button>New Quiz</Button>
-              </ClientLink>
-              <ClientLink to="/api/auth/logout">
-                <Button
-                // disabled={loadingProviders}
-                >
-                  Login out
-                </Button>
-              </ClientLink>
-              {/* <Button
-                onClick={() => {
-                  signOut();
-                }}
-              >
-                Log out
-              </Button> */}
-            </div>
+          <Navbar user={user} />
+          <div className="my-5">
+            <ClientLink to="quiz/form">
+              <Button>New Quiz</Button>
+            </ClientLink>
+          </div>
+          <div className="w-full mt-20 grid gap-5 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+            <p className="col-auto">You haven't created any quizes</p>
           </div>
         </div>
       )}

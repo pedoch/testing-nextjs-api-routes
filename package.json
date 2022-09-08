@@ -12,6 +12,7 @@
     "@auth0/nextjs-auth0": "^1.9.1",
     "@next-auth/mongodb-adapter": "^1.0.4",
     "axios": "^0.27.2",
+    "cors": "^2.8.5",
     "mongodb": "^4.9.1",
     "mongoose": "^6.5.4",
     "next": "12.2.5",

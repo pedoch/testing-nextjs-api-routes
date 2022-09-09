@@ -46,6 +46,7 @@ export default function TakeQuiz() {
 
     if (q) {
       setLoadingQuizzes(true);
+      setErrorMessage("");
       fetchQuiz(q);
     }
   }, [router.query]);
@@ -91,8 +92,6 @@ export default function TakeQuiz() {
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
-
-                console.log("Got here");
 
                 setSubmitting(true);
                 setSubmitted(false);

@@ -14,6 +14,8 @@ export default function Home() {
   // const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+  const [deletingQuiz, setDeletingQuiz] = useState();
   const [loadingQuizzes, setLoadingQuizzes] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -24,13 +26,26 @@ export default function Home() {
     try {
       const { data } = await axios(`/api/quizzes?userSub=${user.sub}`);
 
-      console.log(data);
-
       setQuizzes(data.quizzes);
     } catch (error) {
       setErrorMessage(error.message || "An error occurred.");
     } finally {
       setLoadingQuizzes(false);
+    }
+  };
+
+  const deleteQuiz = async (quizId) => {
+    setDeleting(true);
+    setDeletingQuiz(quizId);
+    try {
+      await axios.delete(`/api/quiz?quizId=${quizId}`);
+
+      fetchQuizzes();
+    } catch (error) {
+      setErrorMessage(error.message || "An error occurred.");
+    } finally {
+      setDeleting(false);
+      setDeletingQuiz(undefined);
     }
   };
 
@@ -42,6 +57,8 @@ export default function Home() {
         setLoading(false);
 
         setLoadingQuizzes(true);
+
+        setErrorMessage("");
 
         fetchQuizzes();
       }
@@ -85,7 +102,13 @@ export default function Home() {
                     <p className="my-2">{quiz.quiz.length} Question(s)</p>
                     <div className="flex space-x-3 items-center justify-between">
                       {quiz.published ? (
-                        <Button>View Submissions</Button>
+                        <Button
+                          onClick={() =>
+                            (window.location.href = `/quiz/submissions?quizId=${quiz._id}`)
+                          }
+                        >
+                          View Submissions
+                        </Button>
                       ) : (
                         <Button
                           onClick={() =>
@@ -95,7 +118,15 @@ export default function Home() {
                           Edit
                         </Button>
                       )}
-                      <Button className="bg-red-500 text-white">Delete</Button>
+                      <Button
+                        className="bg-red-500 text-white"
+                        disabled={deleting}
+                        onClick={() => deleteQuiz(quiz._id)}
+                      >
+                        {deleting && deletingQuiz === quiz._id
+                          ? "Deleting"
+                          : "Delete"}
+                      </Button>
                     </div>
                   </div>
                 ))}

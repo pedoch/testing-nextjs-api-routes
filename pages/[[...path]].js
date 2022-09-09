@@ -10,6 +10,7 @@ import { useState } from "react";
 import Home from "../components/pages/home";
 import Login from "../components/pages/login";
 import CreateQuiz from "../components/pages/quiz/create";
+import Submissions from "../components/pages/quiz/submissions";
 import TakeQuiz from "../components/pages/quiz/take";
 
 export const ClientRouterContext = React.createContext({
@@ -88,6 +89,7 @@ const App = () => {
       <ClientRouter whileLoading={<p>Loading</p>}>
         <ClientRoute path="login" component={<Login />} />
         <ClientRoute path="quiz/form" component={<CreateQuiz />} />
+        <ClientRoute path="quiz/submissions" component={<Submissions />} />
         <ClientRoute path="q" component={<TakeQuiz />} />
         <ClientRoute path="" component={<Home />} />
       </ClientRouter>

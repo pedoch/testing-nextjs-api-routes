@@ -1,5 +1,6 @@
 import connectMongo from "../../../utils/connectMongoDB";
 import Quiz from "../../../models/quiz";
+import Submission from "../../../models/submission";
 import Cors from "cors";
 import { runMiddleware } from "../../../utils/middleware";
 
@@ -68,6 +69,8 @@ export default async function quizAPI(req, res) {
       await connectMongo();
 
       await Quiz.findByIdAndDelete(req?.query?.quizId);
+
+      await Submission.deleteMany({ quizId: req?.query?.quizId });
 
       return res.json({ message: "Quiz deleted successfully" });
     } catch (error) {

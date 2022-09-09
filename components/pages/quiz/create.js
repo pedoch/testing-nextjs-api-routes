@@ -60,7 +60,10 @@ const CreateQuiz = () => {
         const { quizId } = router.query;
 
         if (!quizId) setLoading(false);
-        else fetchQuiz(quizId);
+        else {
+          setErrorMessage("");
+          fetchQuiz(quizId);
+        }
       }
     }
   }, [isLoading]);
@@ -179,8 +182,6 @@ const CreateQuiz = () => {
                   formValues.permalink = generatePermalink();
                 }
 
-                console.log(formValues);
-
                 let payload;
 
                 if (quizToEdit) {
@@ -191,8 +192,6 @@ const CreateQuiz = () => {
                 } else {
                   payload = await axios.post("/api/quiz", formValues);
                 }
-
-                console.log(payload);
 
                 if (publish) setQuizPermalink(formValues.permalink);
 

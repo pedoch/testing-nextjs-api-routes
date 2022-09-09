@@ -17,8 +17,6 @@ const Login = () => {
   const { user, error, isLoading } = useUser();
 
   useEffect(() => {
-    console.log(user);
-
     if (!isLoading) {
       if (user) {
         window.location.href = "/";

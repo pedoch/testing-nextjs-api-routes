@@ -80,9 +80,9 @@ export default function Home() {
         <div className="w-full max-w-6xl">
           <Navbar user={user} />
           <div className="my-5">
-            <ClientLink to="quiz/form">
-              <Button>New Quiz</Button>
-            </ClientLink>
+            <Button onClick={() => (window.location.href = "quiz/form")}>
+              New Quiz
+            </Button>
           </div>
           {errorMessage && (
             <p className="p-3 border-red-400 text-red-400 rounded min-w-full my-4">

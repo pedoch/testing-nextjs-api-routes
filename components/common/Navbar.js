@@ -8,9 +8,7 @@ export const Navbar = ({ user }) => {
     <div className="w-full flex justify-between">
       <p className="text-2xl font-semibold">Welcome{` ${user?.name || ""}`}!</p>
       <div className="space-x-2">
-        <ClientLink to="/">
-          <Button>Home</Button>
-        </ClientLink>
+        <Button onClick={() => (window.location.href = "/")}>Home</Button>
         {user && (
           <Button
             // disabled={loadingProviders}

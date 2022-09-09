@@ -74,16 +74,16 @@ export default function TakeQuiz() {
       <div className="w-full max-w-6xl">
         <Navbar />
         <div className="my-5">
-          <ClientLink to="quiz/form">
-            <Button>Create Your Own Quiz</Button>
-          </ClientLink>
+          <Button onClick={() => (window.location.href = "quiz/form")}>
+            Create Your Own Quiz
+          </Button>
         </div>
         {errorMessage && (
           <p className="p-3 border-red-400 text-red-400 rounded min-w-full my-4">
             {errorMessage}
           </p>
         )}
-        <div className="w-full mt-20 grid gap-5 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
+        <div className="w-full mt-20">
           {loadingQuizzes ? (
             <p className="col-auto">Loading Quiz...</p>
           ) : !quiz ? (
@@ -162,10 +162,13 @@ export default function TakeQuiz() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <div className="flex space-x-3 items-center justify-between">
+              <div>
                 {quiz?.quiz?.map((question, index) => (
                   <div key={index} className="mt-5">
-                    <p>{question.question}</p>
+                    <p>{question.question} </p>
+                    <p className="text-sm">
+                      {question.multi && "(You can select multiple)"}
+                    </p>
                     <ul>
                       {question.options.map((option, optionIndex) => (
                         <li

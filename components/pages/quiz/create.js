@@ -199,6 +199,7 @@ const CreateQuiz = () => {
                 const quiz = payload.data.quiz;
 
                 setQuiz(quiz);
+                setSubmitted(true);
               } catch (error) {
                 setErrorMessage(error.message || "An error has occurred.");
               } finally {
@@ -251,8 +252,7 @@ const CreateQuiz = () => {
             )}
             {!errorMessage && submitted && quizPermalink ? (
               <div className="p-3 border-green-400 rounded min-w-full my-4">
-                Share quiz:{" "}
-                {`${window.location.origin}/q?quiz=${quizPermalink}`}
+                Share quiz: {`${window.location.origin}/q?q=${quizPermalink}`}
               </div>
             ) : (
               !errorMessage &&

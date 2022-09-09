@@ -1,14 +1,14 @@
-import connectMongo from "../../utils/connectMongoDB";
-import Quiz from "../../models/quiz";
+import connectMongo from "../../../utils/connectMongoDB";
+import Quiz from "../../../models/quiz";
 import Cors from "cors";
-import { runMiddleware } from "../../utils/middleware";
+import { runMiddleware } from "../../../utils/middleware";
 
 const cors = Cors({
   origin: "*",
   methods: ["POST", "GET", "PUT", "DELETE"],
 });
 
-export default async function addTest(req, res) {
+export default async function quizAPI(req, res) {
   await runMiddleware(req, res, cors);
 
   if (req.method === "POST") {
@@ -17,10 +17,10 @@ export default async function addTest(req, res) {
 
       const quiz = await Quiz.create(req.body);
 
-      res.json({ quiz });
+      return res.json({ quiz });
     } catch (error) {
       console.log(error);
-      res.json({ error });
+      return res.json({ error });
     }
   }
 
@@ -43,10 +43,10 @@ export default async function addTest(req, res) {
 
       await quiz.save();
 
-      res.json({ quiz });
+      return res.json({ quiz });
     } catch (error) {
       console.log(error);
-      res.json({ error });
+      return res.json({ error });
     }
   }
 
@@ -56,10 +56,29 @@ export default async function addTest(req, res) {
 
       const quiz = await Quiz.findById(req?.query?.quizId);
 
-      res.json({ quiz });
+      return res.json({ quiz });
     } catch (error) {
       console.log(error);
-      res.json({ error });
+      return res.json({ error });
     }
   }
+
+  if (req.method === "DELETE") {
+    try {
+      await connectMongo();
+
+      await Quiz.findByIdAndDelete(req?.query?.quizId);
+
+      return res.json({ message: "Quiz deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      return res.json({ error });
+    }
+  }
+
+  return res.status(400).json({
+    error: {
+      message: "Bad Request",
+    },
+  });
 }
